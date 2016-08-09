@@ -13,8 +13,11 @@ In this C# solution project, you will understand all Azure Service Fabric key fu
 
 
 
+
+
 ## Prerequisites
-*__1.	Install Azure Service Fabric SDK__*
+
+*__Install Azure Service Fabric SDK__*
 
 This example use Service Fabric SDK 2.1.163.9590.
 
@@ -23,11 +26,12 @@ Please follow below document to initialize your Service Fabric development envir
 https://azure.microsoft.com/en-us/documentation/articles/service-fabric-get-started/
 
 
-*__2.	Create test Service Fabric__*
+*__Create test Service Fabric__*
 
 Please follow below document to create an Azure Service Fabric.
 
 https://azure.microsoft.com/en-us/documentation/articles/service-fabric-cluster-creation-via-portal/
+
 
 
 
@@ -36,6 +40,7 @@ https://azure.microsoft.com/en-us/documentation/articles/service-fabric-cluster-
 You can get detail explanation of below Service Fabric terminology from here.
 
 https://azure.microsoft.com/en-us/documentation/articles/service-fabric-technical-overview/
+
 
 *__Application1__*
 
@@ -135,7 +140,7 @@ CORS means return additional HTTP header in response. Actually it is not a Servi
 
 4\. After publish, use this http://www.test-cors.org/ to test CORS.
 
-*__3.	Communication between Web API service and Stateless Service __*
+*__3.	Communication between Web API service and Stateless Service__*
 
 Web API service is the public entry service. But it always needs to invoke other backend services to finish business requests. We have 2 choices to achieve this target: create backend service public endpoint or use Service Fabric internal communication technology.
 
@@ -159,7 +164,7 @@ public async Task<string> GetFromStatelessService(int id)
 
 In this example, Stateless1 service returned an object and WebApi1 service can get the result object.
 
-*__4.	Communication between Web API service and Stateful Service __*
+*__4.	Communication between Web API service and Stateful Service__*
 
 Please check Stateless1 and WebApi1 projects to find the solution source code.
 
@@ -212,7 +217,7 @@ This is because in Application1/ApplicationPackageRoot/ApplicationManifest.xml, 
 
 ```
 
-*__5.	Communication between Web API service and Stateful Actor __*
+*__5.	Communication between Web API service and Stateful Actor__*
 
 Please check Actor1 and WebApi1 projects to find the solution source code.
 
