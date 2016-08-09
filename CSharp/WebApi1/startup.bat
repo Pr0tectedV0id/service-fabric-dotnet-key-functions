@@ -1,0 +1,1 @@
+REM dir > E:\test.txt
