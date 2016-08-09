@@ -10,10 +10,9 @@ author: msonecode
 Azure Service Fabric is an amazing framework. But it contains a lot of concepts need to understand.
 
 In this C# solution project, you will understand all Azure Service Fabric key functions. I will present these functions by simplest and shortest codes.
-
-
-
-
+<br/>
+<br/>
+<br/>
 
 ## Prerequisites
 
@@ -24,16 +23,17 @@ This example use Service Fabric SDK 2.1.163.9590.
 Please follow below document to initialize your Service Fabric development environment.
 
 https://azure.microsoft.com/en-us/documentation/articles/service-fabric-get-started/
-
+<br/>
+<br/>
 
 *__Create test Service Fabric__*
 
 Please follow below document to create an Azure Service Fabric.
 
 https://azure.microsoft.com/en-us/documentation/articles/service-fabric-cluster-creation-via-portal/
-
-
-
+<br/>
+<br/>
+<br/>
 
 ## Project Structure
 
@@ -45,7 +45,8 @@ https://azure.microsoft.com/en-us/documentation/articles/service-fabric-technica
 *__Application1__*
 
 It is the Service Fabric Application project. We need to use this project to publish and set all micro-services deployment configuration, such as instance count and partition count.
-
+<br/>
+<br/>
 
 *__WebApi1__*
 
@@ -66,34 +67,39 @@ This project has below public HTTP endpoints.
 `http://[service fabric domain]:8972/api/values/getfromactor/[actor id]`
 
 `http://[service fabric domain]:8972/api/values/settoactor/[actor id]?value=[test value]`
-
+<br/>
+<br/>
 
 *__Stateless1__*
 
 Example Stateless service.
 
 Web API service has communication with this service.
+<br/>
+<br/>
 
 *__Stateful1__*
 
 Example Stateful service.
 
 Web API service has communication with this service.
+<br/>
+<br/>
 
 *__Actor1 and Actor1.Interfaces__*
 
 Example Stateful Actor and interface definition project.
 
 Web API service has communication with this actor.
-
-
-
+<br/>
+<br/>
+<br/>
 
 ## Key Functions
 
 Below are some very common scenarios and how to achieve them by codes.
 
-*__1.	Startup Task__*
+*__Add Startup Task__*
 
 Please check WebApi1 project to find the solution source code.
 
@@ -114,8 +120,10 @@ Sometimes we need to install some dependency exe or run some bat file to preset 
 ```
 
 4\. Notice you need to use `<Program>startup.bat</Program>` as a line.
+<br/>
+<br/>
 
-*__2.	CORS__*
+*__Add CORS__*
 
 Please check WebApi1 project to find the solution source code.
 
@@ -139,8 +147,10 @@ CORS means return additional HTTP header in response. Actually it is not a Servi
 ```
 
 4\. After publish, use this http://www.test-cors.org/ to test CORS.
+<br/>
+<br/>
 
-*__3.	Communication between Web API service and Stateless Service__*
+*__Communication between Web API service and Stateless Service__*
 
 Web API service is the public entry service. But it always needs to invoke other backend services to finish business requests. We have 2 choices to achieve this target: create backend service public endpoint or use Service Fabric internal communication technology.
 
@@ -163,8 +173,10 @@ public async Task<string> GetFromStatelessService(int id)
 ```
 
 In this example, Stateless1 service returned an object and WebApi1 service can get the result object.
+<br/>
+<br/>
 
-*__4.	Communication between Web API service and Stateful Service__*
+*__Communication between Web API service and Stateful Service__*
 
 Please check Stateless1 and WebApi1 projects to find the solution source code.
 
@@ -216,8 +228,10 @@ This is because in Application1/ApplicationPackageRoot/ApplicationManifest.xml, 
     </Service>
 
 ```
+<br/>
+<br/>
 
-*__5.	Communication between Web API service and Stateful Actor__*
+*__Communication between Web API service and Stateful Actor__*
 
 Please check Actor1 and WebApi1 projects to find the solution source code.
 
