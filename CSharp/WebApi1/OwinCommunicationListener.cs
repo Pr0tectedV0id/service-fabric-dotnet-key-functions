@@ -69,7 +69,8 @@ namespace WebApi1
 
                 this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}{2}/{3}/{4}",
+                    "{0}://+:{1}/{2}{3}/{4}/{5}",
+                    serviceEndpoint.Protocol,
                     port,
                     string.IsNullOrWhiteSpace(this.appRoot)
                         ? string.Empty
@@ -82,7 +83,8 @@ namespace WebApi1
             {
                 this.listeningAddress = string.Format(
                     CultureInfo.InvariantCulture,
-                    "http://+:{0}/{1}",
+                    "{0}://+:{1}/{2}",
+                    serviceEndpoint.Protocol,
                     port,
                     string.IsNullOrWhiteSpace(this.appRoot)
                         ? string.Empty
@@ -107,7 +109,7 @@ namespace WebApi1
             }
             catch (Exception ex)
             {
-                this.eventSource.ServiceMessage(this.serviceContext, "Web server failed to open. " + ex.ToString());
+                this.eventSource.ServiceMessage(this.serviceContext, "Web server for endpoint {0} failed to open. {1}", this.endpointName, ex.ToString());
 
                 this.StopWebServer();
 
@@ -117,7 +119,7 @@ namespace WebApi1
 
         public Task CloseAsync(CancellationToken cancellationToken)
         {
-            this.eventSource.ServiceMessage(this.serviceContext, "Closing web server");
+            this.eventSource.ServiceMessage(this.serviceContext, "Closing web server for endpoint {0}", this.endpointName);
 
             this.StopWebServer();
 
@@ -126,7 +128,7 @@ namespace WebApi1
 
         public void Abort()
         {
-            this.eventSource.ServiceMessage(this.serviceContext, "Aborting web server");
+            this.eventSource.ServiceMessage(this.serviceContext, "Aborting web server for endpoint {0}", this.endpointName);
 
             this.StopWebServer();
         }

@@ -54,7 +54,7 @@ namespace Stateful1
                 cancellationToken.ThrowIfCancellationRequested();
                 ServiceEventSource.Current.ServiceMessage(this, "Running {0}",
                     DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-                await Task.Delay(TimeSpan.FromSeconds(30), cancellationToken);
+                await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken);
             }
         }
 

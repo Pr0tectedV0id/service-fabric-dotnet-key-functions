@@ -24,6 +24,10 @@
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="WebApi1Pkg" ServiceManifestVersion="1.0.0" />
     <ConfigOverrides />
+    <Policies>
+      <EndpointBindingPolicy EndpointRef="ServiceHttpsEndpoint" CertificateRef="TestCert1" />
+      <RunAsPolicy CodePackageRef="Code" UserRef="SetupAdminUser" EntryPointType="All" />
+    </Policies>
   </ServiceManifestImport>
   <DefaultServices>
     <Service Name="Stateless1">
@@ -47,4 +51,16 @@
       </StatefulService>
     </Service>
   </DefaultServices>
+  <Principals>
+    <Users>
+      <User Name="SetupAdminUser">
+        <MemberOf>
+          <SystemGroup Name="Administrators" />
+        </MemberOf>
+      </User>
+    </Users>
+  </Principals>
+  <Certificates>
+    <EndpointCertificate X509FindValue="C82CD573B5CDE976B4799134F1618A80EBE57E9C" Name="TestCert1" />
+  </Certificates>
 </ApplicationManifest>

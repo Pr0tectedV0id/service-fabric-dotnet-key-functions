@@ -1,1 +1,1 @@
-REM dir > E:\test.txt
+REM DIR > 1.txt

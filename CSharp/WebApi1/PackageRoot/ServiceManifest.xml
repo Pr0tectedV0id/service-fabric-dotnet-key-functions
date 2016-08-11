@@ -15,6 +15,7 @@
     <SetupEntryPoint>
       <ExeHost>
         <Program>startup.bat</Program>
+        <WorkingFolder>CodePackage</WorkingFolder>
       </ExeHost>
     </SetupEntryPoint>
     <EntryPoint>
@@ -34,6 +35,7 @@
            listen. Please note that if your service is partitioned, this port is shared with 
            replicas of different partitions that are placed in your code. -->
       <Endpoint Protocol="http" Name="ServiceEndpoint" Type="Input" Port="8972" />
+      <Endpoint Protocol="https" Name="ServiceHttpsEndpoint" Type="Input" Port="8973" />
     </Endpoints>
   </Resources>
 </ServiceManifest>
