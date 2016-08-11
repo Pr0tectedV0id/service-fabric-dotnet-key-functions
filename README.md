@@ -99,6 +99,25 @@ Web API service has communication with this actor.
 
 Here are some very common scenarios and the way to achieve them with codes.
 
+*__Limit Service Running On Specific Node Type__*
+
+According to MSDN, we can create more than 1 node types (virtual machine scale set) in one Azure Service Fabric. Usually it means front end and back end, because we can use smaller size and less VMs for front end, use bigger and more VMs for backend. In this example, I create 2 node types: nodetype1 and nodetype2. Please notice they have different domain names. You can get them from Azure Portal Public IP list.
+
+In our solution, we need to configure WebApi1 service is running in front node type and other services running in backend node type.
+
+In WebApi1/PackageRoot/ServiceManifest.xml, we use below configuration to limit this service only can run in "nodetype2". Please notice you need to add this configuration for not upgrade mode if you service fabric is ready running.
+
+```xml
+<PlacementConstraints>(NodeType==nodetype2)</PlacementConstraints>
+```
+
+Also the other services have been set to run in "nodetype1".
+
+<br/>
+<br/>
+
+
+
 *__Add Startup Task__*
 
 Please check WebApi1 project to find the solution source code.
@@ -120,8 +139,12 @@ Sometimes we need to install some dependency exe or run some bat file to preset 
 ```
 
 4\. Notice that `<Program>startup.bat</Program>` should be used in one line.
+
 <br/>
 <br/>
+
+
+
 
 *__Add CORS__*
 
@@ -147,8 +170,12 @@ CORS means to return additional HTTP header in response. Actually, it is not a S
 ```
 
 4\. After publishing, use this http://www.test-cors.org/ to test CORS.
+
 <br/>
 <br/>
+
+
+
 
 
 *__Enable HTTPS Web API Service__*
@@ -193,6 +220,8 @@ Please check WebApi1 and Application1 projects to find the solution source code.
 <br/>
 
 
+
+
 *__Communication between Web API service and Stateless Service__*
 
 Web API service is the public entry service which needs to invoke other backend services to finish business requests. We have 2 choices to achieve this target: creating backend service public endpoint or using Service Fabric internal communication technology.
@@ -216,8 +245,12 @@ public async Task<string> GetFromStatelessService(int id)
 ```
 
 In this example, Stateless1 service returned an object so that WebApi1 service can receive the result object.
+
 <br/>
 <br/>
+
+
+
 
 *__Communication between Web API service and Stateful Service__*
 
@@ -271,8 +304,12 @@ This is because in Application1/ApplicationPackageRoot/ApplicationManifest.xml, 
     </Service>
 
 ```
+
 <br/>
 <br/>
+
+
+
 
 *__Communication between Web API service and Stateful Actor__*
 
