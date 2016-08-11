@@ -58,15 +58,15 @@ We use this project as Service Fabric public HTTP access entry point.
 
 This project includes the following public HTTP endpoints.
 
-`http://[service fabric domain]:8972/api/values/getfromstatelessservice/1`
+`http(s)://[service fabric domain]:[8972 or 8973]/api/values/getfromstatelessservice/1`
 
-`http://[service fabric domain]:8972/api/values/getfromstatefulservice/[partition key]`
+`http(s)://[service fabric domain]:[8972 or 8973]/api/values/getfromstatefulservice/[partition key]`
 
-`http://[service fabric domain]:8972/api/values/settostatefulservice/[partition key]?value=[test value]`
+`http(s)://[service fabric domain]:[8972 or 8973]/api/values/settostatefulservice/[partition key]?value=[test value]`
 
-`http://[service fabric domain]:8972/api/values/getfromactor/[actor id]`
+`http(s)://[service fabric domain]:[8972 or 8973]/api/values/getfromactor/[actor id]`
 
-`http://[service fabric domain]:8972/api/values/settoactor/[actor id]?value=[test value]`
+`http(s)://[service fabric domain]:[8972 or 8973]/api/values/settoactor/[actor id]?value=[test value]`
 <br/>
 <br/>
 
@@ -149,6 +149,49 @@ CORS means to return additional HTTP header in response. Actually, it is not a S
 4\. After publishing, use this http://www.test-cors.org/ to test CORS.
 <br/>
 <br/>
+
+
+*__Enable HTTPS Web API Service__*
+
+Please check WebApi1 and Application1 projects to find the solution source code.
+
+1\. Prepare a .pfx file. You can use makecert.exe to generate a test certificate. In this project, it names as vantest.pfx .
+
+2\. Prepare installcert.cmd and installcert.ps1 file. You will use these files to install van.pfx certificate into VM localMachine\\MY store.
+
+3\. RDP to every VM, copy above 3 files to VM. Run installcert.cmd in command window. If you want to install certificate automatically when VMSS scale up or down, you need to use Azure Key-Vault and set certificate in deployment template.
+
+4\. Open WebApi1/ServiceManifest.xml and add below configuration.
+
+```xml
+<Endpoint Protocol="https" Name="ServiceHttpsEndpoint" Type="Input" Port="8973" />
+```
+
+5.\ Open Application1/ApplicationManifest.xml and add below configuration. Please notice X509FindValue is the thumbprint of vantest.pfx
+
+```xml
+    <Policies>
+      <EndpointBindingPolicy EndpointRef="ServiceHttpsEndpoint" CertificateRef="TestCert1" />
+    </Policies>
+```
+
+```xml
+<Certificates>
+    <EndpointCertificate X509FindValue="C82CD573B5CDE976B4799134F1618A80EBE57E9C" Name="TestCert1" />
+</Certificates>
+```
+
+6\. Open WebApi1/OwinCommunicationListener.cs and modify it to listen https protocol. By default it only listens http.
+
+7\. Open WebApi1/WebApi1.cs and modify it to listen all endpoints in configuration. By default it only listen endpoint "ServiceEndpoint".
+
+8.\ Open Azure Service Fabric Portal, add 8973 port load balancer.
+
+9.\ Publish Service Fabric, and test by https://[service fabric domain]:8973/api/values/getfromstatelessservice/1
+
+<br/>
+<br/>
+
 
 *__Communication between Web API service and Stateless Service__*
 
