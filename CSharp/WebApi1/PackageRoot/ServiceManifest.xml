@@ -7,7 +7,9 @@
   <ServiceTypes>
     <!-- This is the name of your ServiceType. 
          This name must match the string used in RegisterServiceType call in Program.cs. -->
-    <StatelessServiceType ServiceTypeName="WebApi1Type" />
+    <StatelessServiceType ServiceTypeName="WebApi1Type" >
+      <PlacementConstraints>(NodeType==nodetype2)</PlacementConstraints>
+    </StatelessServiceType>
   </ServiceTypes>
 
   <!-- Code package is your service executable. -->

@@ -7,7 +7,9 @@
   <ServiceTypes>
     <!-- This is the name of your ServiceType. 
          This name must match the string used in RegisterServiceType call in Program.cs. -->
-    <StatelessServiceType ServiceTypeName="Stateless1Type" />
+    <StatelessServiceType ServiceTypeName="Stateless1Type" >
+      <PlacementConstraints>(NodeType==nodetype1)</PlacementConstraints>
+    </StatelessServiceType>
   </ServiceTypes>
 
   <!-- Code package is your service executable. -->
