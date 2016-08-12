@@ -22,17 +22,28 @@ namespace WebApi1.Controllers
             return string.Format("[{0}] {1}: {2}", message.Time.ToString("yyyy-MM-dd HH:mm:ss"), message.Id, message.Count);
         }
 
-        // GET api/values/getfromstatefulservice/5 
-        public async Task<string> GetFromStatefulService(int partitionid)
+        /// <summary>
+        /// get data from stateful service by paritition id
+        /// </summary>
+        /// <param name="id">paritition id</param>
+        /// <example>GET api/values/getfromstatefulservice/5</example>
+        /// <returns>value string</returns> 
+        public async Task<string> GetFromStatefulService(int id)
         {
-            var helloWorldClient = ServiceProxy.Create<ITestService>(new Uri("fabric:/Application1/Stateful1"), new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(partitionid));
+            var helloWorldClient = ServiceProxy.Create<ITestService>(new Uri("fabric:/Application1/Stateful1"), new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(id));
             var message = await helloWorldClient.GetCount();
             return message;
         }
 
-		// GET api/values/settostatefulservice/[0-5]?value=123 
+        /// <summary>
+        /// set value to stateful service by partition id
+        /// </summary>
+        /// <param name="id">partition id</param>
+        /// <param name="value">the value you want to set</param>
+        /// <example>GET api/values/settostatefulservice/[0-5]?value=123</example>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<string> SetToStatefulService(int partitionid, long value)
+        public async Task<string> SetToStatefulService(int id, long value)
         {
             /* Explnation of partition key
              * if there are 2 partitions with key from 0-5.
@@ -42,31 +53,41 @@ namespace WebApi1.Controllers
              * which means if you set value 10 to any one of partition key 0-2, 
              * then partition #1 will have value 10 but partition #2 still have value 0
             */
-            var helloWorldClient = ServiceProxy.Create<ITestService>(new Uri("fabric:/Application1/Stateful1"), new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(partitionid));
+            var helloWorldClient = ServiceProxy.Create<ITestService>(new Uri("fabric:/Application1/Stateful1"), new Microsoft.ServiceFabric.Services.Client.ServicePartitionKey(id));
             await helloWorldClient.SetCount(value);
-            return String.Format("id: {0} has been set to {1}", partitionid, value);
+            return String.Format("id: {0} has been set to {1}", id, value);
         }
 
-
-		// GET api/values/settoactor/1?value=123
+        /// <summary>
+        /// Get data from actor by actor id
+        /// </summary>
+        /// <param name="id">actor id</param>
+        /// <example>GET api/values/getfromactor/1</example>
+        /// <returns></returns>
         [HttpGet]
-        public async Task<string> SetToActor(long actorid, int value)
+        public async Task<string> GetFromActor(long id)
+        {
+            var actor = ActorProxy.Create<IActor1>(new ActorId(id), new Uri("fabric:/Application1/Actor1ActorService "));
+            var value = await actor.GetCountAsync();
+            return value.ToString();
+        }
+
+        /// <summary>
+        /// Set data to actor by actor id
+        /// </summary>
+        /// <param name="id">actor id</param>
+        /// <param name="value"></param>
+        /// <example>GET api/values/settoactor/1?value=123</example>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<string> SetToActor(long id, int value)
         {
             var start = DateTime.Now;
-            var actor = ActorProxy.Create<IActor1>(new ActorId(actorid), new Uri("fabric:/Application1/Actor1ActorService "));
+            var actor = ActorProxy.Create<IActor1>(new ActorId(id), new Uri("fabric:/Application1/Actor1ActorService "));
             await actor.SetCountAsync(value);
             return String.Format(
                 "{0}\n\nActor id: {1} has been set to {2}\n\n{3}",
-                start.ToString("yyyy-MM-dd HH:mm:ss"), actorid, value, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-        }
-
-		// GET api/values/getfromactor/1
-        [HttpGet]
-        public async Task<string> GetFromActor(long actorid)
-        {
-            var actor = ActorProxy.Create<IActor1>(new ActorId(actorid), new Uri("fabric:/Application1/Actor1ActorService "));
-            var value = await actor.GetCountAsync();
-            return value.ToString();
+                start.ToString("yyyy-MM-dd HH:mm:ss"), id, value, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
         }
     }
 }
