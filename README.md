@@ -7,9 +7,10 @@ author: msonecode
 # Azure Service Fabric Key Functions Simple Project
 
 ## Introduction
-Azure Service Fabric is an amazing framework. However, there remains a lot of concepts for you to understand.
 
-This C# solution project will help you to understand all the key functions in Azure Service Fabric. They will be presented with the simplest and shortest codes.
+This C# solution project is trying to help you understand all the key functions in Azure Service Fabric by simplest and shortest codes.
+
+You can use this project as your first Azure Service Fabric example and sample.
 <br/>
 <br/>
 <br/>
