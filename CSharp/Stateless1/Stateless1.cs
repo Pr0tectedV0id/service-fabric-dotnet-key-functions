@@ -8,6 +8,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+using System.IO;
 
 namespace Stateless1
 {
@@ -64,6 +65,20 @@ namespace Stateless1
 
                 await Task.Delay(TimeSpan.FromMinutes(1), cancellationToken);
             }
+        }
+
+        protected override void OnAbort()
+        {
+            File.AppendAllText(@"%TEMP%/Stateless1.log", 
+                string.Format("[{0}] {1} : Abort\r\n", DateTime.Now.ToString("yyyy-MM-dd ")));
+            base.OnAbort();
+        }
+
+        protected override Task OnCloseAsync(CancellationToken cancellationToken)
+        {
+            File.AppendAllText(@"%TEMP%/Stateless1.log",
+                string.Format("[{0}] {1} : Close\r\n", DateTime.Now.ToString("yyyy-MM-dd ")));
+            return base.OnCloseAsync(cancellationToken);
         }
     }
     public interface ITestStatelessService : IService
