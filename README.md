@@ -8,7 +8,7 @@ author: msonecode
 
 ## Introduction
 
-This C# solution project is trying to help you understand all the key functions in Azure Service Fabric by simplest and shortest codes.
+This C# solution project is trying to help you understand all the key functions in Azure Service Fabric with the simplest and shortest codes.
 
 You can use this project as your first Azure Service Fabric example and sample.
 <br/>
@@ -38,7 +38,7 @@ https://azure.microsoft.com/en-us/documentation/articles/service-fabric-cluster-
 
 ## Project Structure
 
-You can get more detailed explanation for Service Fabric terminology in this website.
+You can get more detailed explanation for Service Fabric terminology on this website.
 
 https://azure.microsoft.com/en-us/documentation/articles/service-fabric-technical-overview/
 
@@ -53,7 +53,7 @@ It is the Service Fabric Application project. We need to use this project to pub
 
 Example Stateless Web API service.
 
-It listens 8972 port (you can change it from ServiceManifest.xml in this project) and acts as OWIN Web API service. You can also add MVC functions in this project.
+It listens to 8972 port (you can change it from ServiceManifest.xml in this project) and acts as OWIN Web API service. You can also add MVC functions to this project.
 
 We use this project as Service Fabric public HTTP access entry point.
 
@@ -102,17 +102,17 @@ Here are some very common scenarios and the way to achieve them with codes.
 
 *__Limit Service Running On Specific Node Type__*
 
-According to MSDN, we can create more than 1 node types (virtual machine scale set) in one Azure Service Fabric. Usually it means front end and back end, because we can use smaller size and less VMs for front end, use bigger and more VMs for backend. In this example, I create 2 node types: nodetype1 and nodetype2. Please notice they have different domain names. You can get them from Azure Portal Public IP list.
+According to MSDN, we can create more than 1 node types (virtual machine scale set) in one Azure Service Fabric. It usually means front end and back end since we can use smaller size and less VMs for front end, while bigger and more VMs for backend. In this example, I create 2 node types: nodetype1 and nodetype2. Please notice they have different domain names. You can get them from Azure Portal Public IP list.
 
 In our solution, we need to configure WebApi1 service is running in front node type and other services running in backend node type.
 
-In WebApi1/PackageRoot/ServiceManifest.xml, we use below configuration to limit this service only can run in "nodetype2". Please notice you need to add this configuration for not upgrade mode if you service fabric is ready running.
+In WebApi1/PackageRoot/ServiceManifest.xml, we use the below configuration to limit this service so that it can only run in "nodetype2". Please notice you need to add this configuration for not upgrade mode if your service fabric is ready for running.
 
 ```xml
 <PlacementConstraints>(NodeType==nodetype2)</PlacementConstraints>
 ```
 
-Also the other services have been set to run in "nodetype1".
+Besides, other services have been set to run in "nodetype1".
 
 <br/>
 <br/>
@@ -123,7 +123,7 @@ Also the other services have been set to run in "nodetype1".
 
 Please check WebApi1 project to find the solution source code.
 
-Sometimes we need to install some dependency exe or run some bat file to preset VM environment before Service Fabric starts to run. Just as the cloud service startup task. You can use following steps to achieve this target.
+Sometimes we need to install some dependency exe or to run some bat files to preset VM environment before Service Fabric starts to run, just like the cloud service startup task. You can use following steps to achieve this target.
 
 1\. Add startup.bat to the project. Exe file is also acceptable.
 
@@ -151,7 +151,7 @@ Sometimes we need to install some dependency exe or run some bat file to preset 
 
 Please check WebApi1 project to find the solution source code.
 
-CORS means to return additional HTTP header in response. Actually, it is not a Service Fabric topic issue. Service Fabric CORS means how to add CORS into OWIN Web API2 service.
+CORS means to return additional HTTP header in response. Actually, it is not a Service Fabric topic issue. Service Fabric CORS means to add CORS into OWIN Web API2 service.
 
 1\. Install "Microsoft.Owin.Cors" assembly from nuget, while it has been assembly installed in this example.
 
@@ -183,18 +183,17 @@ CORS means to return additional HTTP header in response. Actually, it is not a S
 
 Please check WebApi1 and Application1 projects to find the solution source code.
 
-1\. Prepare a .pfx file. You can use makecert.exe to generate a test certificate. In this project, it names as vantest.pfx .
+1\. Prepare a .pfx file. You can use makecert.exe to generate a test certificate. In this project, the name is vantest.pfx .
 
 2\. Prepare installcert.cmd and installcert.ps1 file. You will use these files to install van.pfx certificate into VM localMachine\\MY store.
 
-3\. RDP to every VM, copy above 3 files to VM. Run installcert.cmd in command window. If you want to install certificate automatically when VMSS scale up or down, you need to use Azure Key-Vault and set certificate in deployment template.
+3\. RDP to every VM, copy the above 3 files to VM. Run installcert.cmd in command window. If you want to install certificate automatically when VMSS scale up or down, you need to use Azure Key-Vault and set certificate in deployment template.
 
-4\. Open WebApi1/ServiceManifest.xml and add below configuration.
+4\. Open WebApi1/ServiceManifest.xml and add the below configuration.
 
 ```xml
 <Endpoint Protocol="https" Name="ServiceHttpsEndpoint" Type="Input" Port="8973" />
 ```
-
 5.\ Open Application1/ApplicationManifest.xml and add below configuration. Please notice X509FindValue is the thumbprint of vantest.pfx
 
 ```xml
@@ -209,9 +208,9 @@ Please check WebApi1 and Application1 projects to find the solution source code.
 </Certificates>
 ```
 
-6\. Open WebApi1/OwinCommunicationListener.cs and modify it to listen https protocol. By default it only listens http.
+6\. Open WebApi1/OwinCommunicationListener.cs and modify it to listen https protocol. By default, it only listens http.
 
-7\. Open WebApi1/WebApi1.cs and modify it to listen all endpoints in configuration. By default it only listen endpoint "ServiceEndpoint".
+7\. Open WebApi1/WebApi1.cs and modify it to listen all endpoints in configuration. By default, it only listens endpoint "ServiceEndpoint".
 
 8.\ Open Azure Service Fabric Portal, add 8973 port load balancer.
 
@@ -231,7 +230,7 @@ Please check Stateless1 and WebApi1 projects to find the solution source code.
 
 1\. Open Stateless1/Stateless1.cs. There are interface `ITestStatelessService`, class `TestCount` and method `public Task<TestCount> GetCount()`. They defined Stateless1 service open API.
 
-2\. Open WebApi1/Controllers/ValuesController.cs. The codes in the below will indicate how to build communication with Stateless1 service.
+2\. Open WebApi1/Controllers/ValuesController.cs. The codes at below will indicate how to build communication with Stateless1 service.
 
 ```C#
 
